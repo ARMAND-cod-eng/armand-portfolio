@@ -1,0 +1,368 @@
+@import "tailwindcss";
+
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+
+/* ------------------------------------------------------------------ */
+/*  Design tokens — dark is the default; light overrides below.        */
+/*  Utilities reference these variables, so both themes switch at once. */
+/* ------------------------------------------------------------------ */
+
+@theme {
+  --color-canvas: #080d18;
+  --color-surface: #0d1422;
+  --color-surface-2: #111a2c;
+  --color-surface-3: #16213a;
+  --color-visual: #0a101c;
+  --color-line: rgb(148 163 184 / 0.12);
+  --color-line-strong: rgb(148 163 184 / 0.22);
+  --color-line-hover: rgb(255 255 255 / 0.25);
+  --color-fill: rgb(255 255 255 / 0.03);
+  --color-fill-2: rgb(255 255 255 / 0.065);
+  --color-ink: #f8fafc;
+  --color-ink-2: #d5dde8;
+  --color-muted: #94a3b8;
+  --color-faint: #8391a7;
+  --color-accent: #22d3ee;
+  --color-accent-soft: #67e8f9;
+  --color-violet: #818cf8;
+  --color-ok: #34d399;
+  --color-warn: #fbbf24;
+
+  /* Schematic illustrations */
+  --color-viz-node: #0f1828;
+  --color-viz-stroke: rgb(148 163 184 / 0.32);
+  --color-viz-faint: rgb(148 163 184 / 0.16);
+  --color-viz-text: #8391a7;
+  --color-viz-ink: #d5dde8;
+  --color-viz-cyan: #22d3ee;
+  --color-viz-violet: #818cf8;
+
+  /* Data charts (validated pair: emphasis + de-emphasis) */
+  --color-chart-accent: #0aa0c2;
+  --color-chart-neutral: #465468;
+
+  --text-display: clamp(2.5rem, 1.35rem + 4.2vw, 4.6rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.035em;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+}
+
+:root {
+  color-scheme: dark;
+  --grid-line: rgb(148 163 184 / 0.055);
+  --glow-cyan: rgb(34 211 238 / 0.15);
+  --glow-violet: rgb(129 140 248 / 0.11);
+  --flow-color: rgb(34 211 238 / 0.75);
+  --shadow-raised:
+    inset 0 1px 0 0 rgb(255 255 255 / 0.045), 0 1px 2px rgb(0 0 0 / 0.35),
+    0 18px 40px -24px rgb(0 0 0 / 0.7);
+  --shadow-cta: 0 0 0 1px rgb(255 255 255 / 0.08), 0 10px 30px -10px rgb(34 211 238 / 0.55);
+  --selection: rgb(34 211 238 / 0.28);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-canvas: #f6f8fb;
+  --color-surface: #ffffff;
+  --color-surface-2: #f1f5f9;
+  --color-surface-3: #e2e8f0;
+  --color-visual: #f8fafc;
+  --color-line: rgb(15 23 42 / 0.09);
+  --color-line-strong: rgb(15 23 42 / 0.16);
+  --color-line-hover: rgb(15 23 42 / 0.3);
+  --color-fill: rgb(15 23 42 / 0.03);
+  --color-fill-2: rgb(15 23 42 / 0.06);
+  --color-ink: #0b1220;
+  --color-ink-2: #1e293b;
+  --color-muted: #475569;
+  --color-faint: #5b6b80;
+  --color-accent: #0e7490;
+  --color-accent-soft: #0e7490;
+  --color-violet: #4f46e5;
+  --color-ok: #047857;
+  --color-warn: #b45309;
+
+  --color-viz-node: #ffffff;
+  --color-viz-stroke: rgb(71 85 105 / 0.34);
+  --color-viz-faint: rgb(71 85 105 / 0.16);
+  --color-viz-text: #64748b;
+  --color-viz-ink: #1e293b;
+  --color-viz-cyan: #0891b2;
+  --color-viz-violet: #6366f1;
+
+  --color-chart-accent: #0279a0;
+  --color-chart-neutral: #b8c3d2;
+
+  --grid-line: rgb(15 23 42 / 0.05);
+  --glow-cyan: rgb(34 211 238 / 0.16);
+  --glow-violet: rgb(129 140 248 / 0.14);
+  --flow-color: rgb(8 145 178 / 0.8);
+  --shadow-raised: 0 1px 2px rgb(15 23 42 / 0.06), 0 14px 34px -22px rgb(15 23 42 / 0.25);
+  --shadow-cta: 0 0 0 1px rgb(15 23 42 / 0.1), 0 10px 28px -12px rgb(8 145 178 / 0.5);
+  --selection: rgb(8 145 178 / 0.2);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                               */
+/* ------------------------------------------------------------------ */
+
+@layer base {
+  html {
+    background-color: var(--color-canvas);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--selection);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  [id] {
+    scroll-margin-top: 5.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Utilities                                                          */
+/* ------------------------------------------------------------------ */
+
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+@utility bg-grid-fine {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+@utility mask-fade-top {
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 0%, #000 25%, transparent 75%);
+}
+
+@utility mask-fade-edges {
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 40%, transparent 100%);
+}
+
+/* Hairline top highlight used on raised surfaces. */
+@utility shadow-raised {
+  box-shadow: var(--shadow-raised);
+}
+
+@utility shadow-cta {
+  box-shadow: var(--shadow-cta);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Components                                                         */
+/* ------------------------------------------------------------------ */
+
+@layer components {
+  /* Pointer-following border glow for cards (driven by SpotlightCard). */
+  .spotlight {
+    --spot-x: 50%;
+    --spot-y: 0%;
+    --spot-opacity: 0;
+    position: relative;
+    isolation: isolate;
+  }
+
+  .spotlight::before,
+  .spotlight::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: var(--spot-opacity);
+    transition: opacity 300ms ease;
+  }
+
+  .spotlight::before {
+    z-index: 1;
+    padding: 1px;
+    background: radial-gradient(
+      380px circle at var(--spot-x) var(--spot-y),
+      rgb(34 211 238 / 0.6),
+      rgb(129 140 248 / 0.28) 45%,
+      transparent 75%
+    );
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+
+  .spotlight::after {
+    z-index: -1;
+    background: radial-gradient(
+      520px circle at var(--spot-x) var(--spot-y),
+      rgb(34 211 238 / 0.055),
+      transparent 60%
+    );
+  }
+
+  /* Dashed connector lines used by the hero system flow. */
+  .flow-x {
+    background-image: linear-gradient(to right, var(--flow-color) 0 8px, transparent 8px 18px);
+    background-size: 18px 1.5px;
+    background-repeat: repeat-x;
+    background-position: 0 50%;
+  }
+
+  .flow-y {
+    background-image: linear-gradient(to bottom, var(--flow-color) 0 8px, transparent 8px 18px);
+    background-size: 1.5px 18px;
+    background-repeat: repeat-y;
+    background-position: 50% 0;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Motion (all of it opt-in on prefers-reduced-motion)                */
+/* ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Scroll-driven reveal: progressive enhancement, no JavaScript.
+     Browsers without view timelines simply show the content. */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+
+  .flow-x.is-active {
+    animation: flow-x 0.9s linear infinite;
+  }
+
+  .flow-x.is-active.is-reverse {
+    animation-direction: reverse;
+  }
+
+  .flow-y.is-active {
+    animation: flow-y 0.9s linear infinite;
+  }
+
+  .hero-enter > * {
+    animation: fade-up 0.9s var(--ease-out-expo) both;
+  }
+
+  .hero-enter > :nth-child(2) {
+    animation-delay: 70ms;
+  }
+
+  .hero-enter > :nth-child(3) {
+    animation-delay: 140ms;
+  }
+
+  .hero-enter > :nth-child(4) {
+    animation-delay: 210ms;
+  }
+
+  .hero-enter > :nth-child(n + 5) {
+    animation-delay: 280ms;
+  }
+
+  .pulse-dot {
+    animation: pulse-dot 2.4s ease-in-out infinite;
+  }
+
+  .menu-enter {
+    animation: fade-down 0.22s var(--ease-out-expo) both;
+  }
+
+  .chart-bar {
+    transition: filter 150ms ease;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes flow-x {
+  to {
+    background-position: 18px 50%;
+  }
+}
+
+@keyframes flow-y {
+  to {
+    background-position: 50% 18px;
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(52 211 153 / 0.5);
+  }
+  60% {
+    box-shadow: 0 0 0 6px rgb(52 211 153 / 0);
+  }
+}
+
+/* Native <dialog> lightbox */
+dialog.lightbox::backdrop {
+  background: rgb(2 6 15 / 0.82);
+  backdrop-filter: blur(6px);
+}
