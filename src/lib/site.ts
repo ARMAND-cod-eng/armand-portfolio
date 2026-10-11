@@ -1,12 +1,17 @@
 import { profile } from "@/data/profile";
 
+/** The site's own domain — canonical links, the sitemap and social cards use it. */
+export const PRODUCTION_URL = "https://www.armandnotue.com";
+
 /**
- * The canonical site URL. Set NEXT_PUBLIC_SITE_URL once the domain is chosen;
- * on Vercel the production deployment URL is used as a fallback.
+ * The canonical site URL: NEXT_PUBLIC_SITE_URL if set, the custom domain on
+ * any Vercel deployment, otherwise localhost for development.
  */
 function resolveSiteUrl(): string {
   const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim();
   if (explicit) return explicit.replace(/\/+$/, "");
+
+  if (process.env.VERCEL_ENV) return PRODUCTION_URL;
 
   const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
   if (vercel) return `https://${vercel}`;

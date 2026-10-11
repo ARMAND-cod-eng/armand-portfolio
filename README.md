@@ -26,15 +26,15 @@ npm run check      # all three, in order
 
 ## Deploy on Vercel
 
-1. Push this folder to a new GitHub repository (or run `vercel` from it).
-2. Import the repository in Vercel. The framework preset is detected; no build settings to change.
-3. Under **Settings → Environment Variables**, set `NEXT_PUBLIC_SITE_URL` to the final
-   domain (for example `https://armandnotue.com`) for the Production environment.
-4. Add the custom domain under **Settings → Domains**.
+The site is live at **https://www.armandnotue.com** (GitHub `ARMAND-cod-eng/armand-portfolio`,
+Vercel project `armand-portfolio`). Every push to `main` deploys to production.
 
-Until `NEXT_PUBLIC_SITE_URL` is set, canonical URLs, the sitemap and social images
-fall back to Vercel's production URL. Preview deployments are automatically marked
-`noindex` and disallowed in `robots.txt`.
+- The canonical address is `PRODUCTION_URL` in `src/lib/site.ts`. Canonical URLs, the
+  sitemap, `robots.txt` and social images use it on every Vercel deployment.
+  `NEXT_PUBLIC_SITE_URL` overrides it if ever needed.
+- The domain is managed in Vercel under **Domains**: `www.armandnotue.com` is the primary
+  address and `armandnotue.com` redirects to it (308).
+- Preview deployments are automatically marked `noindex` and disallowed in `robots.txt`.
 
 ## Updating content
 
